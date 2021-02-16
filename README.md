@@ -2,30 +2,30 @@
 Smotify - music app on Python.
 ## I
 
--[x] basic UI
+- [x] basic UI
 
--[x] Authentication
+- [x] Authentication
 
--[] Upload songs
+- [] Upload songs
 
--[] Search
+- [] Search
 
 ## II
 
--[] Player (song and conttrols for repeat/suffle)
+- [] Player (song and conttrols for repeat/suffle)
 
 ## III
 
--[] Extract mp3 metadata
+- [] Extract mp3 metadata
 
--[] Playlist management
+- [] Playlist management
 
--[] Extend player and search
+- [] Extend player and search
 
--[] Search to use uploaded playlists
+- [] Search to use uploaded playlists
 
 ## IV
 
--[] Similiar songs
+- [] Similiar songs
 
--[] Improve UI
+- [] Improve UI
