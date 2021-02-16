@@ -1,0 +1,34 @@
+
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
+    <h1 class="uk-heading-medium">Register</h1>
+    <br>
+    <form method="POST"> 
+            <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: user"></span>
+                <input type="text" name="uname" class="uk-input" id="uname">
+            </div>
+            </div>
+
+            <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                <input class="uk-input" type="password" name="passw" id="passw">
+            </div>
+            </div>
+
+            <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                <input class="uk-input" type="email" name="mail" id="mail">
+            </div>
+            </div>
+
+            <button type="submit" class="uk-button uk-button-secondary" uk-icon="icon: check"></button>
+    </form>
+    </div>
+
+{% endblock %}

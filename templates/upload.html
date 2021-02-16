@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center" uk-grid>
+    <h1>Upload</h1>
+
+    <div class="uk-margin" uk-margin>
+        <div uk-form-custom="target: true">
+            <input type="file">
+            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+        </div>
+        <button class="uk-button uk-button-default">Submit</button>
+    </div>
+</div>
+{% endblock %}
