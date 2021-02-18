@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
-import os 
+import os, hashlib
 
 app = Flask(__name__)
 db_path = os.path.join(os.path.dirname(__file__), 'app.db')
@@ -9,6 +9,9 @@ db_uri = 'sqlite:///{}'.format(db_path)
 print(db_uri)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
+
+def hash_password(password):
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 class user(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,11 +33,15 @@ def login():
         uname = request.form["uname"]
         passw = request.form["passw"]
         
-        login = user.query.filter_by(username=uname, password=passw).first()
+        login = user.query.filter_by(username = uname, password = hash_password(passw)).first()
         if login is not None:
             session['logged_in'] = True
             session['username'] = uname
             return redirect(url_for("index"))
+
+        elif login is None:
+            return render_template("user_not_found.html");
+        
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -44,7 +51,7 @@ def register():
         mail = request.form['mail']
         passw = request.form['passw']
 
-        register = user(username = uname, email = mail, password = passw)
+        register = user(username = uname, email = mail, password = hash_password(passw))
         db.session.add(register)
         db.session.commit()
 
