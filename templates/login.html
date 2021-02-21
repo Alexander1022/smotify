@@ -1,7 +1,16 @@
-
 {% extends 'base.html' %}
 {% block body %}
-
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(static/1.jpg);"></div>
 <div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
     <h1 class="uk-heading-medium">Login</h1>
     <br>

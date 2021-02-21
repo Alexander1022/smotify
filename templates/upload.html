@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center" uk-grid>
-    <h1>Upload</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
-    <div class="uk-margin" uk-margin>
-        <div uk-form-custom="target: true">
-            <input type="file">
-            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+<div class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(static/1.jpg);"></div>
+        <div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center" uk-grid>
+            <h1>Upload</h1>
+
+            <div class="uk-margin" uk-margin>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="js-upload" uk-form-custom>
+                        <span uk-icon="upload"></span>
+                        <input type="file" name="file">
+                        <button class="uk-button uk-button-default" type="button">Select music file</button>
+                    </div>
+
+                    <input class="uk-button uk-button-default" type="submit" value=Upload></input>
+                </form>
+            </div>
+            <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
         </div>
-        <button class="uk-button uk-button-default">Submit</button>
-    </div>
-</div>
+
 {% endblock %}
