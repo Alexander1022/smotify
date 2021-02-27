@@ -29,9 +29,9 @@ class user(db.Model):
 
 class song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    song = db.Column(db.String(20), unique=True)
+    name = db.Column(db.String(20), unique=True)
     artist_name = db.Column(db.String(50))
-    genre = db.Column(db.String())
+    genre = db.Column(db.String(20))
 
 @app.route('/')
 def index():
@@ -53,6 +53,11 @@ def upload():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            File = song(name = filename, artist_name = "Artist", genre = "genre")
+            db.session.add(File)
+            db.session.commit()
+
             return redirect(url_for('uploaded_file', filename = filename))
         else:
             flash('.mp3, .wav, .ogg and .wma are only supported')
@@ -110,6 +115,17 @@ def is_logged_in(f):
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/songs', methods=['GET', 'POST'])
+def songs():
+
+    result = 0
+
+    if result > 0:
+        return render_template('songs.html', songs = songs)
+
+    elif result <= 0 :
+        return render_template('songs.html', error = "There are not any songs right now :(")
 
 if __name__ == "__main__":
     db.create_all()
