@@ -6,4 +6,15 @@
     <h1 class="uk-heading-medium"> {{error}} </h1>
 </div>
 
+{% for song in songs %}
+	<article class="uk-article">
+		<div class="uk-container">
+			<h1 uk-article-title>{{ song.name }}</h1>
+			<p>Author: {{ song.artist_name }}</p> 
+			<p>Genre: {{ song.genre }}</p>
+		</div>
+	</article>
+{% endfor %}
+
+
 {% endblock %}

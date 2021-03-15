@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 import os, hashlib
 from werkzeug.utils import secure_filename
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired, Length
 
 UPLOAD_FOLDER = './uploads'
 ONLY_ALLOWED = {'mp3', 'wav', 'ogg', 'wma'}
@@ -32,13 +35,34 @@ class song(db.Model):
     name = db.Column(db.String(20), unique=True)
     artist_name = db.Column(db.String(50))
     genre = db.Column(db.String(20))
+    
+class UploadForm(FlaskForm):
+    SongName = StringField('SongName', validators=[DataRequired(), Length(min=1, max=20)])
+    Artist = StringField('Artist', validators=[DataRequired(), Length(min=1, max=50)])
+    Genre = StringField('Genre', validators=[DataRequired(), Length(min=1, max=30)])
+    
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login', 'danger')
+            return redirect(url_for('login'))
+    return wrap
+	
 
 @app.route('/')
+@app.route('/home')
 def index():
     return render_template('home.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
+@is_logged_in
 def upload():
+
+    form = UploadForm()
+
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('Please select file!')
@@ -54,15 +78,15 @@ def upload():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            File = song(name = filename, artist_name = "Artist", genre = "genre")
+            File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data)
             db.session.add(File)
             db.session.commit()
 
-            return redirect(url_for('uploaded_file', filename = filename))
+            return redirect(url_for('songs'))
         else:
             flash('.mp3, .wav, .ogg and .wma are only supported')
 
-    return render_template('upload.html')
+    return render_template('upload.html', form = form)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -100,32 +124,16 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html")
 
-def is_logged_in(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash('Unauthorized, Please login', 'danger')
-            return redirect(url_for('login'))
-    return wrap
-
 @app.route('/logout')
 @is_logged_in
 def logout():
     session.clear()
     return redirect(url_for('login'))
 
-@app.route('/songs', methods=['GET', 'POST'])
+@app.route('/songs')
 def songs():
-
-    result = 0
-
-    if result > 0:
-        return render_template('songs.html', songs = songs)
-
-    elif result <= 0 :
-        return render_template('songs.html', error = "There are not any songs right now :(")
+    songs = song.query.all()
+    return render_template('songs.html', songs = songs)
 
 if __name__ == "__main__":
     db.create_all()

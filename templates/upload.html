@@ -22,8 +22,20 @@
                         <input type="file" name="file">
                         <button class="uk-button uk-button-default" type="button">Select music file</button>
                     </div>
-
-                    <input class="uk-button uk-button-default" type="submit" value=Upload></input>
+                    
+						<div class="uk-margin-medium-top">
+							{{form.SongName.label()}}
+							{{form.SongName}}
+						</div>
+						<div class="uk-margin">
+							{{form.Artist.label()}}
+							{{form.Artist}}
+						</div>
+						<div class="uk-margin">
+							{{form.Genre.label()}}
+							{{form.Genre}}
+						</div>
+                    <input class="uk-button uk-button-default uk-margin-medium-top" type="submit" value=Upload></input>
                 </form>
             </div>
             <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
