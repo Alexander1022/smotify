@@ -2,13 +2,20 @@
     <div class="uk-navbar-left">
         <ul class="uk-navbar-nav">
             <li class="uk-active"><a href="/">Smotify</a></li>
+            <li class="uk-active"><a href="/songs">Songs</a></li>
             {% if session.logged_in %}
             <li class="uk-active"><a href="/upload">Upload</a></li>
-            <li class="uk-active"><a href="/songs">Songs</a></li>
             {% else %}
             {% endif %}
         </ul>
     </div>
+
+<div class="uk-navbar-center">
+	<form class="uk-search uk-search-navbar" method="GET">
+		<button class="uk-search-icon-flip"uk-search-icon type="submit"></button>
+		<input class="uk-search-input" type="search" placeholder="Search songs" name="q">
+	</form>
+</div>
 
     <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">

@@ -130,9 +130,15 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-@app.route('/songs')
+@app.route('/songs', methods=['GET', 'POST'])
 def songs():
-    songs = song.query.all()
+    q = request.args.get('q')
+    
+    if q:
+        songs = song.query.filter(song.name.contains(q) | song.artist_name.contains(q) | song.genre.contains(q))
+    else:
+        songs = song.query.all()
+        
     return render_template('songs.html', songs = songs)
 
 if __name__ == "__main__":
