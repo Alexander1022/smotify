@@ -6,9 +6,9 @@ Smotify - music app on Python.
 
 - [x] Authentication
 
-- [ ] Upload songs
+- [x] Upload songs
 
-- [ ] Search
+- [x] Search
 
 ## II
 
