@@ -22,6 +22,9 @@
 			<h1 class="uk-card-header">{{ song.name }}</h1>
 			<p class="uk-card-body">By: {{ song.artist_name }}</p> 
 			<p class="uk-card-badge uk-label uk-label-warning">{{ song.genre }}</p>
+			<audio controls>
+				<source src="/uploads/{{song.filename}}" type="audio/mp3">
+			</audio>
 		</div>
 	</div>
 {% endfor %}

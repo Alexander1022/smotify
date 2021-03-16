@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, send_from_directory
+import logging 
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 import os, hashlib
@@ -35,6 +36,7 @@ class song(db.Model):
     name = db.Column(db.String(20), unique=True)
     artist_name = db.Column(db.String(50))
     genre = db.Column(db.String(20))
+    filename = db.Column(db.String(80))
     
 class UploadForm(FlaskForm):
     SongName = StringField('SongName', validators=[DataRequired(), Length(min=1, max=20)])
@@ -78,7 +80,7 @@ def upload():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data)
+            File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename)
             db.session.add(File)
             db.session.commit()
 
@@ -144,4 +146,5 @@ def songs():
 if __name__ == "__main__":
     db.create_all()
     app.secret_key='spotify'
-    app.run(debug=True)
+    logging.debug("The server is started. Enjoy using Smotify!")
+    app.run(debug=False)
