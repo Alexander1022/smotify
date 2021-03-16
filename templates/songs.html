@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
 {% block body %}
 
+<ul class="uk-subnav">
+	<li>
+	<form class="uk-search uk-search-navbar" method="GET">
+		<button class="uk-search-icon-flip"uk-search-icon type="submit"></button>
+		<input class="uk-search-input" type="search" placeholder="Search songs" name="q">
+	</form>
+	</li>
+</ul>
+
+
 <div class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(static/1.jpg);"></div>
 <div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
     <h1 class="uk-heading-medium"> {{error}} </h1>
 </div>
     
 {% for song in songs %}
-	<article class="uk-article">
-		<div class="uk-container">
-			<h1 uk-article-title>{{ song.name }}</h1>
-			<p>Author: {{ song.artist_name }}</p> 
-			<p>Genre: {{ song.genre }}</p>
+	<div class="uk-article uk-margin-left uk-margin-right uk-margin-remove-bottom">
+		<div class="uk-margin uk-card uk-card-small uk-card-default uk-card-body uk-card-hover">
+			<h1 class="uk-card-header">{{ song.name }}</h1>
+			<p class="uk-card-body">By: {{ song.artist_name }}</p> 
+			<p class="uk-card-badge uk-label uk-label-warning">{{ song.genre }}</p>
 		</div>
-	</article>
+	</div>
 {% endfor %}
-
 
 {% endblock %}
