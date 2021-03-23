@@ -1,6 +1,6 @@
 # Smotify
 Smotify - music app on Python.
-![Smotify Image](smotify_image.png)
+![Smotify Image](/smotify_image.png)
 ## I
 
 - [x] basic UI
