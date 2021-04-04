@@ -15,18 +15,211 @@
 <div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
     <h1 class="uk-heading-medium"> {{error}} </h1>
 </div>
-    
+
+<script>
+	var js_songs;
+	var js_songs_name;
+	var js_songs_artists;
+	var js_songs_genre;
+	js_songs = [];
+	js_songs_name = [];
+	js_songs_artists = [];
+	js_songs_genre = [];
+</script>
+
 {% for song in songs %}
-	<div class="uk-article uk-margin-left uk-margin-right uk-margin-remove-bottom">
-		<div class="uk-margin uk-card uk-card-small uk-card-default uk-card-body uk-card-hover">
-			<h1 class="uk-card-header">{{ song.name }}</h1>
-			<p class="uk-card-body">By: {{ song.artist_name }}</p> 
-			<p class="uk-card-badge uk-label uk-label-warning">{{ song.genre }}</p>
-			<audio controls>
-				<source src="/uploads/{{song.filename}}" type="audio/mp3">
-			</audio>
-		</div>
+	<script>
+		var song_filename = "/uploads/{{song.filename}}";
+		var song_name = "{{song.name}}";
+		var song_artist = "{{song.artist_name}}";
+		var song_genre = "{{song.genre}}";
+
+		js_songs.push(song_filename);
+		js_songs_name.push(song_name);
+		js_songs_artists.push(song_artist);
+		js_songs_genre.push(song_genre);
+	</script>
+
+<div class="uk-article uk-margin-left uk-margin-right">
+	<div class="uk-card uk-card-secondary uk-card-body">
+		<h1 class="uk-card-header">{{ song.name }}</h1>
+		<p class="uk-card-body">By: {{ song.artist_name }}</p> 
+		<p class="uk-card-badge uk-label uk-label-warning">{{ song.genre }}</p>
+		<audio src="/uploads/{{song.filename}}" id="song"></audio>
+		
 	</div>
+</div>
+
 {% endfor %}
 
+<script>
+	console.log("The number of songs is : " + js_songs.length);
+</script>
+
+
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #end" class="uk-navbar-container uk-navbar">
+    <div class="uk-navbar-left">
+		<ul class="uk-iconnav">
+		<button uk-icon="icon: chevron-left; ratio: 2.5" onclick="prevTrack()" class="previous-song"></button>
+		<button uk-icon="icon: play; ratio: 2.5" onclick="playpauseTrack()" class="play-pause"></button>
+		<button uk-icon="icon: chevron-right; ratio: 2.5" onclick="nextTrack()" class="next-song"></button>
+		</ul>
+	</div>
+	<div class = "uk-navbar-center">
+		<div class="current-time">00:00</div>
+		<input type="range" min="1" max="100" value="0" class="seek_slider uk-progress" onchange="seekTo()">
+		<div class="total-duration">00:00</div>
+	</div>
+
+	<div class="uk-navbar-right">
+		<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">	
+	</div>
+</div>
+
+<script>
+	let playpause_btn = document.querySelector(".play-pause");
+	let next_btn = document.querySelector(".next-song");
+	let prev_btn = document.querySelector(".previous-song");
+	let seek_slider = document.querySelector(".seek_slider");
+	let curr_time = document.querySelector(".current-time");
+	let total_duration = document.querySelector(".total-duration");
+	let volume_slider = document.querySelector(".volume_slider");
+	let track_index = 0;
+	let isPlaying = false;
+	let updateTimer;
+
+	let curr_track = document.createElement('audio');
+
+	loadTrack(0);
+
+	function loadTrack(track_index) 
+	{
+		clearInterval(updateTimer);
+		resetValues();
+	
+		curr_track.src = js_songs[track_index];
+		curr_track.load();
+	
+		updateTimer = setInterval(seekUpdate, 1000);
+	
+		curr_track.addEventListener("ended", nextTrack);
+	}
+	
+	function resetValues() 
+	{
+		curr_time.textContent = "00:00";
+		total_duration.textContent = "00:00";
+		seek_slider.value = 0;
+	}
+
+	function playpauseTrack() 
+	{
+		if (!isPlaying) 
+		{
+			playTrack();
+		}
+
+		else
+		{
+			pauseTrack();
+		}
+	}
+	
+	function playTrack() 
+	{
+		curr_track.play();
+		isPlaying = true;
+	}
+	
+	function pauseTrack() 
+	{
+		curr_track.pause();
+		isPlaying = false;
+	}
+	
+	function nextTrack() 
+	{
+		if (track_index + 1 <= js_songs.length - 1)
+		{
+			track_index += 1;
+		}
+
+		else
+		{
+			track_index = 0;
+		}
+
+		console.log("New track" + track_index);
+		loadTrack(track_index);
+		playTrack();
+	}
+	
+	function prevTrack() 
+	{
+		if (track_index > 0)
+		{
+			track_index -= 1;
+		}
+
+		else
+		{
+			track_index = js_songs.length - 1;
+		}
+		
+		console.log("New track" + track_index);
+		loadTrack(track_index);
+		playTrack();
+	}
+
+	function seekTo() 
+	{
+  		seekto = curr_track.duration * (seek_slider.value / 100);
+  		curr_track.currentTime = seekto;
+	}
+
+	function seekUpdate() 
+	{
+		let seekPosition = 0;
+		if (!isNaN(curr_track.duration)) 
+		{
+			seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+			seek_slider.value = seekPosition;
+	
+			let currentMinutes = Math.floor(curr_track.currentTime / 60);
+			let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+			let durationMinutes = Math.floor(curr_track.duration / 60);
+			let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+	
+			if (currentSeconds < 10) 
+			{ 
+				currentSeconds = "0" + currentSeconds; 
+			}
+
+			if (durationSeconds < 10) 
+			{ 
+				durationSeconds = "0" + durationSeconds; 
+			}
+
+			if (currentMinutes < 10) 
+			{ 
+				currentMinutes = "0" + currentMinutes; 
+			}
+
+			if (durationMinutes < 10) 
+			{ 
+				durationMinutes = "0" + durationMinutes; 
+			}
+	
+			curr_time.textContent = currentMinutes + ":" + currentSeconds;
+			total_duration.textContent = durationMinutes + ":" + durationSeconds;
+		}
+	}
+
+	function setVolume() 
+	{
+  		curr_track.volume = volume_slider.value / 100;
+	}
+</script>
+
+<div id="end"></div>
 {% endblock %}
