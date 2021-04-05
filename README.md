@@ -13,7 +13,7 @@ Smotify - music app on Python.
 
 ## II
 
-- [ ] Player (song and conttrols for repeat/suffle)
+- [x] Player (song and conttrols for repeat/shuffle)
 
 - [ ] Fuzzysearch (name, artists, etc)
 
