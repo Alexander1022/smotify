@@ -56,24 +56,30 @@
 	console.log("The number of songs is : " + js_songs.length);
 </script>
 
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-box-shadow-hover-small uk-padding">
+	<nav class="uk-navbar-container uk-navbar" style="z-index: 980;" uk-sticky="bottom: true">
+		<div class="uk-navbar-left">
+			<ul class="uk-iconnav">
+			<button uk-icon="icon: triangle-left; ratio: 2.5" onclick="prevTrack()" class="previous-song"></button>
+			<button uk-icon="icon: play; ratio: 2.5" onclick="playpauseTrack()" class="play-pause"></button>
+			<button uk-icon="icon: triangle-right; ratio: 2.5" onclick="nextTrack()" class="next-song"></button>
+			</ul>
+			<div class="song-name">Song Name</div>
+			<p> - </p>
+			<div class="song-artist">Song Artist</div>
+		</div>
+		<div class = "uk-navbar-center">
+			<div class="current-time">00:00</div>
+			<input type="range" min="1" max="100" value="0" class="seek_slider uk-progress" onchange="seekTo()">
+			<div class="total-duration">00:00</div>
+			<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+		</div>
 
-<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #end" class="uk-navbar-container uk-navbar">
-    <div class="uk-navbar-left">
-		<ul class="uk-iconnav">
-		<button uk-icon="icon: chevron-left; ratio: 2.5" onclick="prevTrack()" class="previous-song"></button>
-		<button uk-icon="icon: play; ratio: 2.5" onclick="playpauseTrack()" class="play-pause"></button>
-		<button uk-icon="icon: chevron-right; ratio: 2.5" onclick="nextTrack()" class="next-song"></button>
-		</ul>
-	</div>
-	<div class = "uk-navbar-center">
-		<div class="current-time">00:00</div>
-		<input type="range" min="1" max="100" value="0" class="seek_slider uk-progress" onchange="seekTo()">
-		<div class="total-duration">00:00</div>
-	</div>
-
-	<div class="uk-navbar-right">
-		<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">	
-	</div>
+		<div class="uk-navbar-right">
+			<button onclick="shuffleSwitch()" class="shuffle-songs uk-button uk-button-primary">Shuffle</button>
+			<button uk-icon="icon: refresh; ratio: 2" onclick="repeatTheSong()" class="repeat-song uk-button"></button>
+		</div>
+	</nav>
 </div>
 
 <script>
@@ -84,9 +90,14 @@
 	let curr_time = document.querySelector(".current-time");
 	let total_duration = document.querySelector(".total-duration");
 	let volume_slider = document.querySelector(".volume_slider");
+	let song_name_query = document.querySelector(".song-name");
+	let song_artist_query = document.querySelector(".song-artist");
 	let track_index = 0;
 	let isPlaying = false;
 	let updateTimer;
+	var shuffle_flag = 0;
+	var repeat_flag = 0;
+	alertify.set('notifier','position', 'bottom-right');
 
 	let curr_track = document.createElement('audio');
 
@@ -99,6 +110,8 @@
 	
 		curr_track.src = js_songs[track_index];
 		curr_track.load();
+		song_artist_query.textContent = js_songs_artists[track_index];
+		song_name_query.textContent = js_songs_name[track_index];
 	
 		updateTimer = setInterval(seekUpdate, 1000);
 	
@@ -139,17 +152,28 @@
 	
 	function nextTrack() 
 	{
-		if (track_index + 1 <= js_songs.length - 1)
+		if(shuffle_flag == 0)
 		{
-			track_index += 1;
+			if(repeat_flag == 0)
+			{
+				if (track_index + 1 <= js_songs.length - 1)
+				{
+					track_index += 1;
+				}
+
+				else
+				{
+					track_index = 0;
+				}
+			}
 		}
 
 		else
 		{
-			track_index = 0;
+			shuffleSongs();
 		}
 
-		console.log("New track" + track_index);
+		console.log("[DEBUG]: New track" + track_index);
 		loadTrack(track_index);
 		playTrack();
 	}
@@ -166,7 +190,7 @@
 			track_index = js_songs.length - 1;
 		}
 		
-		console.log("New track" + track_index);
+		console.log("[DEBUG]: New track" + track_index);
 		loadTrack(track_index);
 		playTrack();
 	}
@@ -219,6 +243,48 @@
 	{
   		curr_track.volume = volume_slider.value / 100;
 	}
+
+	function shuffleSwitch()
+	{
+		if(shuffle_flag == 0)
+		{
+			shuffle_flag = 1;
+ 			alertify.success('Shuffle is on!');
+			console.log("[DEBUG]: shuffle is on!");
+		}
+
+		else
+		{
+			shuffle_flag = 0;
+			alertify.success('Shuffle is off!');
+			console.log("[DEBUG]: shuffle is off!");
+		}
+	}
+
+	function shuffleSongs()
+	{
+		track_index = Math.floor(Math.random() * js_songs.length); // number from - to sizeof(js_songs) - 1;
+	}
+
+	function repeatTheSong() 
+	{
+		if(repeat_flag == 0)
+		{
+			repeat_flag = 1;
+			alertify.success('Repeat is on!');
+			console.log("[DEBUG]: repeat is on!");
+		}
+
+		else
+		{
+			repeat_flag = 0;
+			alertify.success('Repeat is off!');
+			console.log("[DEBUG]: repeat is off!");
+		}
+	}
+
+
+
 </script>
 
 <div id="end"></div>

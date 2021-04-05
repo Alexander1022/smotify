@@ -1,32 +1,25 @@
-<nav class="uk-navbar-container" uk-navbar>
-    <div class="uk-navbar-left">
-        <ul class="uk-navbar-nav">
-            <li class="uk-active"><a href="/">Smotify</a></li>
-            <li class="uk-active"><a href="/songs">Songs</a></li>
-            {% if session.logged_in %}
-            <li class="uk-active"><a href="/upload">Upload</a></li>
-            {% else %}
-            {% endif %}
-        </ul>
-    </div>
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+    <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="/">Smotify</a></li>
+                <li class="uk-active"><a href="/songs">Songs</a></li>
+                {% if session.logged_in %}
+                <li class="uk-active"><a href="/upload">Upload</a></li>
+                {% else %}
+                {% endif %}
+            </ul>
+        </div>
 
-<!--
-<div class="uk-navbar-center">
-	<form class="uk-search uk-search-navbar" method="GET">
-		<button class="uk-search-icon-flip"uk-search-icon type="submit"></button>
-		<input class="uk-search-input" type="search" placeholder="Search songs" name="q">
-	</form>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                {% if session.logged_in %}
+                <li class="uk-active"><a href="/logout">Logout</a></li>
+                {% else %}
+                <li class="uk-active"><a href="/register">Register</a></li>
+                <li class="uk-active"><a href="/login">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 </div>
--->
-
-    <div class="uk-navbar-right">
-        <ul class="uk-navbar-nav">
-            {% if session.logged_in %}
-            <li class="uk-active"><a href="/logout">Logout</a></li>
-            {% else %}
-            <li class="uk-active"><a href="/register">Register</a></li>
-            <li class="uk-active"><a href="/login">Login</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
