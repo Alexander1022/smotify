@@ -145,6 +145,6 @@ def songs():
 
 if __name__ == "__main__":
     db.create_all()
-    app.secret_key='spotify'
-    logging.debug("The server is started. Enjoy using Smotify!")
+    app.secret_key='melodic'
+    logging.debug("The server is started. Enjoy using Melodic!")
     app.run(debug=False)

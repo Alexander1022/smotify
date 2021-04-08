@@ -2,10 +2,25 @@
     <nav class="uk-navbar-container" uk-navbar style="position: relative; z-index: 980;">
         <div class="uk-navbar-left">
             <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="/">Smotify</a></li>
-                <li class="uk-active"><a href="/songs">Songs</a></li>
+                <li class="uk-active">
+                    <a href="/">
+                        <span class="bi bi-soundwave" style="font-size: 1.5rem; color: black;"></span>
+                        Melodic
+                    </a>
+                </li>
+                <li class="uk-active">
+                    <a href="/songs">
+                        <span class="bi bi-music-note-list" style="font-size: 1.5rem; color: black;"></span>
+                        Songs
+                    </a>
+                </li>
                 {% if session.logged_in %}
-                <li class="uk-active"><a href="/upload">Upload</a></li>
+                <li class="uk-active">
+                    <a href="/upload">
+                        <span class="bi bi-upload" style="font-size: 1.5rem; color: black;"></span>
+                        Upload
+                    </a>
+                </li>
                 {% else %}
                 {% endif %}
             </ul>
@@ -14,10 +29,25 @@
         <div class="uk-navbar-right">
             <ul class="uk-navbar-nav">
                 {% if session.logged_in %}
-                <li class="uk-active"><a href="/logout">Logout</a></li>
+                <li class="uk-active">
+                    <a href="/logout">
+                        <span class="bi bi-box-arrow-in-left" style="font-size: 1.5rem; color: black;"></span>
+                            Logout
+                    </a>
+                </li>
                 {% else %}
-                <li class="uk-active"><a href="/register">Register</a></li>
-                <li class="uk-active"><a href="/login">Login</a></li>
+                <li class="uk-active">
+                    <a href="/register">
+                        <span class="bi bi-person-plus-fill" style="font-size: 1.5rem; color: black;"></span>
+                         Register
+                    </a>
+                </li>
+                <li class="uk-active">
+                    <a href="/login">
+                        <span class="bi bi-box-arrow-in-right" style="font-size: 1.5rem; color: black;"></span>
+                         Login
+                    </a>
+                </li>
                 {% endif %}
             </ul>
         </div>
