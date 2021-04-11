@@ -1,86 +1,120 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<ul class="uk-subnav">
-	<li>
-	<form class="uk-search uk-search-navbar" method="GET">
-		<button class="uk-search-icon-flip"uk-search-icon type="submit"></button>
-		<input class="uk-search-input" type="search" placeholder="Search songs" name="q">
-	</form>
-	</li>
-</ul>
+<main class="page blog-post-list">
+	<section class="clean-block clean-blog-list dark" style="background: #393e46;">
+		<div class="container">
+			<div class="block-heading">
+				<h2 style="color: #4ecca3;">Browse music and podcasts</h2>
+				<p style="color: #4ecca3;">Play every song and podcast for free.</p>
+			</div>
 
+			<script>
+				var js_songs;
+				var js_songs_name;
+				var js_songs_artists;
+				var js_songs_genre;
+				js_songs = [];
+				js_songs_name = [];
+				js_songs_artists = [];
+				js_songs_genre = [];
+			</script>
 
-<div class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(static/1.jpg);"></div>
-<div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
-    <h1 class="uk-heading-medium"> {{error}} </h1>
-</div>
+			<div class="text-center">
+				<h1 style="color: rgb(255,255,255);">Search now with Melodic!</h1>
 
-<script>
-	var js_songs;
-	var js_songs_name;
-	var js_songs_artists;
-	var js_songs_genre;
-	js_songs = [];
-	js_songs_name = [];
-	js_songs_artists = [];
-	js_songs_genre = [];
-</script>
+				<form method="GET">
+					<input type="search" style="background: #ffffff;border-style: none;border-radius: 6px;width: 294px;height: 34px;margin: 21px;text-align: center;" placeholder="Search songs"  name="q">
+					<button>Search</button>
+				</form>
+			</div>
+			<div class="shadow-lg block-content" style="background: #232931;">
+				<div class="col">
+					{% for song in songs %}
 
-{% for song in songs %}
-	<script>
-		var song_filename = "/uploads/{{song.filename}}";
-		var song_name = "{{song.name}}";
-		var song_artist = "{{song.artist_name}}";
-		var song_genre = "{{song.genre}}";
+					<script>
+						var song_filename = "/uploads/{{song.filename}}";
+						var song_name = "{{song.name}}";
+						var song_artist = "{{song.artist_name}}";
+						var song_genre = "{{song.genre}}";
+				
+						js_songs.push(song_filename);
+						js_songs_name.push(song_name);
+						js_songs_artists.push(song_artist);
+						js_songs_genre.push(song_genre);
+					</script>
 
-		js_songs.push(song_filename);
-		js_songs_name.push(song_name);
-		js_songs_artists.push(song_artist);
-		js_songs_genre.push(song_genre);
-	</script>
-
-<div class="uk-article uk-margin-left uk-margin-right">
-	<div class="uk-card uk-card-secondary uk-card-body">
-		<h1 class="uk-card-header">{{ song.name }}</h1>
-		<p class="uk-card-body">By: {{ song.artist_name }}</p> 
-		<p class="uk-card-badge uk-label uk-label-warning">{{ song.genre }}</p>
-		<audio src="/uploads/{{song.filename}}" id="song"></audio>
-		
-	</div>
-</div>
-
-{% endfor %}
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">{{ song.name }}</h4>
+							<h6 class="text-muted card-subtitle mb-2">{{ song.artist_name }}</h6>
+							<p class="card-text"></p><label for="genre">{{ song.genre }}</label>
+							<audio src="/uploads/{{song.filename}}" id="song"></audio>
+						</div>
+					</div>
+					
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
 
 <script>
 	console.log("The number of songs is : " + js_songs.length);
 </script>
 
-<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-box-shadow-hover-small uk-padding">
-	<nav class="uk-navbar-container uk-navbar" style="z-index: 980;" uk-sticky="bottom: true">
-		<div class="uk-navbar-left">
-			<ul class="uk-iconnav">
-				<button uk-icon="icon: triangle-left; ratio: 2.5" onclick="prevTrack()" class="previous-song"></button>
-				<button uk-icon="icon: play; ratio: 2.5" onclick="playpauseTrack()" class="play-pause"></button>
-				<button uk-icon="icon: triangle-right; ratio: 2.5" onclick="nextTrack()" class="next-song"></button>
-			</ul>
-			<div class="song-name">Song Name</div>
-			<p> - </p>
-			<div class="song-artist">Song Artist</div>
-		</div>
-		<div class = "uk-navbar-center">
-			<div class="current-time">00:00</div>
-			<input type="range" min="1" max="100" value="0" class="seek_slider uk-progress" onchange="seekTo()">
-			<div class="total-duration">00:00</div>
-			<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
-		</div>
+<nav class="navbar navbar-light navbar-expand-md fixed-bottom navigation-clean-button" style="background: #4ecca3;border-top: 5px solid var(--gray-dark) ;">
+	<div class="container">
 
-		<div class="uk-navbar-right">
-			<button onclick="shuffleSwitch()" class="shuffle-songs uk-button uk-button-primary">Shuffle</button>
-			<button uk-icon="icon: refresh; ratio: 2" onclick="repeatTheSong()" class="repeat-song uk-button"></button>
+		<div class="song-name">Song Name</div>
+		<h1>&nbsp;-&nbsp;</h1>
+		<div class="song-artist">Artist</div>
+
+		<div class="collapse navbar-collapse" id="navcol-1">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item" style="margin: 5px;">
+					<button class="btn btn-primary previous-song" onclick="prevTrack()" type="button" style="background: #191414;border-style: none;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-arrow-left">
+							<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
+						</svg></button></li>
+				<li class="nav-item" style="margin: 5px;">
+					<button class="btn btn-primary play-pause" onclick="playpauseTrack()" type="button" style="background: #191414;border-style: none;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-play">
+							<path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"></path>
+						</svg></button></li>
+				<li class="nav-item" style="margin: 5px;">
+					<button class="btn btn-primary next-song"  onclick="nextTrack()" type="button" style="background: #191414;border-style: none;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-arrow-right">
+							<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
+						</svg></button></li>
+				<li class="nav-item text-center" style="color: rgb(255,255,255); margin: 5px;">
+					<div class="current-time">00:00</div>
+				</li>
+				<li class="nav-item text-center" style="color: rgb(255,255,255); margin: 5px;">
+					<input type="range" min="1" max="100" value="0" class="seek_slider uk-progress" onchange="seekTo()">
+				</li>
+				<li class="nav-item text-center" style="color: rgb(255,255,255); margin: 5px;">
+					<div class="total-duration">00:00</div>
+				</li>
+				<li class="nav-item text-center" style="color: rgb(255,255,255); margin: 5px;">
+					<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+				</li>
+			</ul>
+			<span class="ml-auto navbar-text actions"> 
+				<button class="btn btn-light action-button shuffle-songs" onclick="shuffleSwitch()" type="button" style="background: #191414;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-shuffle">
+						<path fill-rule="evenodd" d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"></path>
+						<path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"></path>
+					</svg>
+				</button>
+					<button class="btn btn-light action-button repeat-song" onclick="repeatTheSong()" type="button" style="background: #191414;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-arrow-counterclockwise">
+						<path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"></path>
+						<path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"></path>
+					</svg>
+					</button>
+			</span>
 		</div>
-	</nav>
-</div>
+	</div>
+</nav>
 
 <script>
 	let playpause_btn = document.querySelector(".play-pause");

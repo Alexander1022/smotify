@@ -3,34 +3,35 @@
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
-          <div class="uk-alert-danger" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p>{{ message }}</p>
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
           </div>
         {% endfor %}
     {% endif %}
 {% endwith %}
-<div class="uk-background-cover uk-height-medium uk-panel uk-flex uk-flex-center uk-flex-middle" style="background-image: url(static/1.jpg);"></div>
-<div class="uk-grid-column-small uk-grid-row-large uk-align-center uk-text-center uk-flex-center" uk-grid>
-    <h1 class="uk-heading-medium">Login</h1>
-    <br>
-    <form method="POST"> 
-            <div class="uk-margin">
-            <div class="uk-inline">
-                <span class="uk-form-icon" uk-icon="icon: user"></span>
-                <input type="text" name="uname" class="uk-input" id="uname">
-            </div>
-            </div>
 
-            <div class="uk-margin">
-            <div class="uk-inline">
-                <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                <input class="uk-input" type="password" name="passw" id="passw">
-            </div>
-            </div>
+    <main class="page login-page">
+        <section class="clean-block clean-form dark" style="background: #232931;">
+            <div class="container">
 
-            <button type="submit" class="uk-button uk-button-secondary" uk-icon="icon: check"></button>
-    </form>
-    </div>
+                <div class="block-heading">
+                    <h2 class="text-white" style="color: rgb(255,255,255);">Log In</h2>
+                    <p class="text-white">Melodic</p>
+                </div>
+
+                <form class="shadow-lg" style="background: #ffffff;" method="POST">
+                    <div class="form-group">
+                        <label for="text">Username</label>
+                        <input class="form-control item" type="text" name="uname" id="uname" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" name="passw" id="passw" required="">
+                    </div>
+                    <button class="btn btn-light btn-block" type="submit">Log In</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
     {% endblock %}
