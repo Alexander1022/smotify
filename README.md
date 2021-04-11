@@ -1,5 +1,5 @@
-# Smotify
-Smotify - music app on Python.
+# Melodic
+Melodic - music app on Python.
 ![Smotify Image](/smotify_image.png)
 ## I
 
@@ -25,7 +25,7 @@ Smotify - music app on Python.
 
 - [ ] Similiar songs
 
-- [ ] Improve UI
+- [x] Improve UI (Bootstrap 4.6)
 
 ## IV
 
