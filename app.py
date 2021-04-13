@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, Length
+import random
+import string
 
 UPLOAD_FOLDER = './uploads'
 ONLY_ALLOWED = {'mp3', 'wav', 'ogg', 'wma'}
@@ -17,6 +19,11 @@ db_uri = 'sqlite:///{}'.format(db_path)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
+
+def generate_random_filename():
+	symbols = string.ascii_lowercase + string.ascii_uppercase + string.digits
+	res = ''.join(random.choice(symbols) for i in range(25))
+	return res
 
 def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -77,7 +84,10 @@ def upload():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            #filename = secure_filename(file.filename)
+            
+            filename = generate_random_filename()
+            
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename)
@@ -147,4 +157,4 @@ if __name__ == "__main__":
     db.create_all()
     app.secret_key='melodic'
     logging.debug("The server is started. Enjoy using Melodic!")
-    app.run(debug=False)
+    app.run(debug=True)
