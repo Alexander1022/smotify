@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+        <main class="page login-page">
+            <section class="clean-block clean-form dark" style="background: #232931;">
+                <div class="container">
+                    <div class="block-heading">
+                        <h2 class="text-white">Make a playlist</h2>
+                        <p class="text-white">Choose songs you want to add in your playlist!</p>
+                    </div>
+                </div>
+                
+		<div class="text-center">
+				<form method="GET|POST">
+				
+					<div class="form-group">
+                            			<label>Name</label>
+                           				 <div class="form-control" style="border: 0px;">
+                               				 {{ form.PlaylistName }} 
+                           				 </div>
+                       		 </div>
+				
+					<input type="search" style="background: #ffffff;border-style: none;border-radius: 6px;width: 294px;height: 34px;margin: 21px;text-align: center;" placeholder="Search songs"  name="q">
+					<button>Search</button>
+					
+					{% for song in songs %}
+
+					<ul class="list-group">
+						<li class="text-black" style="background-color=white"> {{ song.name }} - {{ song.artist_name }} - {{ song.genre }} </li>
+
+					{% endfor %}
+				</form>
+				
+			</div>
+                
+            </section>
+        </main>
+
+{% endblock %}
+

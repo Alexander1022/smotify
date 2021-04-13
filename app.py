@@ -60,6 +60,9 @@ class UploadForm(FlaskForm):
     Artist = StringField('Artist', validators=[DataRequired(), Length(min=1, max=50)])
     Genre = StringField('Genre', validators=[DataRequired(), Length(min=1, max=30)])
     
+class MakePLaylistForm(FlaskForm):
+    PlaylistName = StringField('Playlist Name', validators=[DataRequired(), Length(min=1)])
+    
 def is_logged_in(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -163,6 +166,22 @@ def songs():
         songs = songs[:20]
         
     return render_template('songs.html', songs = songs)
+    
+@app.route('/make_playlist', methods = ['GET', 'POST'])
+@is_logged_in
+def make_playlist():
+
+    form = MakePLaylistForm() 
+
+    q = request.args.get('q')
+    
+    if q:
+        songs = song.query.filter(song.name.contains(q) | song.artist_name.contains(q) | song.genre.contains(q))
+    else:
+        songs = []
+
+    return render_template('make_playlist.html', songs = songs, form = form)
+    
 
 if __name__ == "__main__":
     db.create_all()
