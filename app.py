@@ -1,7 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, send_from_directory
 import logging 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
 from functools import wraps
 import os, hashlib
 from werkzeug.utils import secure_filename
@@ -37,15 +36,24 @@ def allowed_file(filename):
 class user(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True)
-    email = db.Column(db.String(50))
+    email = db.Column(db.String(50), unique = True)
     password = db.Column(db.String(30))
 
+songs_playlists = db.Table('songs_playlists',
+    db.Column('song_id', db.Integer, db.ForeignKey('song.id')),
+    db.Column('playlist_id', db.Integer, db.ForeignKey('playlist.playlist_id'))
+)
 class song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
     artist_name = db.Column(db.String(50))
     genre = db.Column(db.String(20))
     filename = db.Column(db.String(80))
+    connections = db.relationship('playlist', secondary = songs_playlists, backref = db.backref('songs_in_playlist', lazy='dynamic'))
+
+class playlist(db.Model):
+    playlist_id = db.Column(db.Integer, primary_key=True)
+    playlist_name = db.Column(db.String(20))
     
 class UploadForm(FlaskForm):
     SongName = StringField('SongName', validators=[DataRequired(), Length(min=1, max=20)])
@@ -71,7 +79,6 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 @is_logged_in
 def upload():
-
     form = UploadForm()
 
     if request.method == 'POST':
