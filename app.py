@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, send_from_directory
 import logging 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from functools import wraps
 import os, hashlib
 from werkzeug.utils import secure_filename
@@ -21,9 +22,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 
 def generate_random_filename():
-	symbols = string.ascii_lowercase + string.ascii_uppercase + string.digits
-	res = ''.join(random.choice(symbols) for i in range(25))
-	return res
+    symbols = string.ascii_lowercase + string.ascii_uppercase + string.digits
+    res = ''.join(random.choice(symbols) for i in range(25))
+    res = res + '.mp3'
+    return res
 
 def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -150,11 +152,13 @@ def songs():
         songs = song.query.filter(song.name.contains(q) | song.artist_name.contains(q) | song.genre.contains(q))
     else:
         songs = song.query.all()
+        random.shuffle(songs)
+        songs = songs[:20]
         
     return render_template('songs.html', songs = songs)
 
 if __name__ == "__main__":
     db.create_all()
-    app.secret_key='melodic'
+    app.secret_key='melodicapp00'
     logging.debug("The server is started. Enjoy using Melodic!")
     app.run(debug=True)
