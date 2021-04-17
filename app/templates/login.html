@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    <main class="page login-page">
+        <section class="clean-block clean-form dark" style="background: #232931;">
+            <div class="container">
+
+                <div class="block-heading">
+                    <h2 class="text-white" style="color: rgb(255,255,255);">Log In</h2>
+                    <p class="text-white">Melodic</p>
+                </div>
+
+                <form class="shadow-lg" style="background: #ffffff;" method="POST">
+                    <div class="form-group">
+                        <label for="text">Username</label>
+                        <input class="form-control item" type="text" name="uname" id="uname" required="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" name="passw" id="passw" required="">
+                    </div>
+                    
+                    <button class="btn btn-light btn-block" type="submit">Log In</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    {% endblock %}
