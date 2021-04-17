@@ -4,7 +4,7 @@ from app.forms import UploadForm, MakePlaylistForm
 from app.utils import *
 from app import app, db, UPLOAD_FOLDER
 import os
-
+from fuzzywuzzy import fuzz
 
 
 #from werkzeug.utils import secure_filename
@@ -95,12 +95,23 @@ def songs():
     q = request.args.get('q')
     
     if q:
-        songs = song.query.filter(song.name.contains(q) | song.artist_name.contains(q) | song.genre.contains(q))
+        records = song.query.all()
+        songs = []
+        
+        for s in records:
+            name = fuzz.token_set_ratio(q, s.name)
+            #artist = fuzz.token_set_ratio(q, song.artist_name)
+            #genre = fuzz.token_set_ratio(q, song.artist)
+            if name > 60:
+                songs.append(s)
     else:
         songs = song.query.all()
         random.shuffle(songs)
         songs = songs[:20]
+                
         
+    
+ 
     return render_template('songs.html', songs = songs)
     
 @app.route('/make_playlist', methods = ['GET', 'POST'])
