@@ -99,11 +99,15 @@ def songs():
         songs = []
         
         for s in records:
-            name = fuzz.token_set_ratio(q, s.name)
-            #artist = fuzz.token_set_ratio(q, song.artist_name)
-            #genre = fuzz.token_set_ratio(q, song.artist)
-            if name > 60:
-                songs.append(s)
+            # търси в името, изпълнителя и жанра и, ако е над 60% се вкарват в списък, който накрая излиза на страницата 
+            name = fuzz.token_sort_ratio(q, s.name)
+            artist = fuzz.token_sort_ratio(q, s.artist_name)
+            genre = fuzz.token_sort_ratio(q, s.genre)
+            
+            if name > 60 or artist > 60 or genre > 60:
+                if s not in songs: 
+                    songs.append(s)
+
     else:
         songs = song.query.all()
         random.shuffle(songs)

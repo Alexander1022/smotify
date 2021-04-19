@@ -32,7 +32,7 @@
 					{% for song in songs %}
 
 					<script>
-						var song_filename = "/app/uploads/{{song.filename}}";
+						var song_filename = "../uploads/{{ song.filename }}";
 						var song_name = "{{song.name}}";
 						var song_artist = "{{song.artist_name}}";
 						var song_genre = "{{song.genre}}";
@@ -48,7 +48,7 @@
 							<h4 class="card-title">{{ song.name }}</h4>
 							<h6 class="text-muted card-subtitle mb-2">{{ song.artist_name }}</h6>
 							<p class="card-text"></p><label for="genre">{{ song.genre }}</label>
-							<audio src="/app/uploads/{{song.filename}}" id="song"></audio>
+							<audio src="../uploads/{{song.filename}}" id="song"></audio>
 						</div>
 					</div>
 					
