@@ -15,7 +15,7 @@ Melodic - music app on Python.
 
 - [x] Player (song and conttrols for repeat/shuffle)
 
-- [ ] Fuzzysearch (name, artists, etc)
+- [x] Fuzzysearch (name, artists, etc)
 
 - [ ] Playlist management
 
