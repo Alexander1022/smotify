@@ -12,7 +12,7 @@ songs_playlists = db.Table('songs_playlists',
 )
 class song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=True)
+    name = db.Column(db.String(20))
     artist_name = db.Column(db.String(50))
     genre = db.Column(db.String(20))
     filename = db.Column(db.String(80))

@@ -5,6 +5,9 @@ from app.utils import *
 from app import app, db, UPLOAD_FOLDER
 import os
 from fuzzywuzzy import fuzz
+from tinytag import TinyTag
+from bs4 import BeautifulSoup
+
 
 
 #from werkzeug.utils import secure_filename
@@ -37,10 +40,15 @@ def upload():
             filename = generate_random_filename()
             
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+            tag = TinyTag.get(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            title = tag.title
+            artist = tag.artist
             File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename)
             db.session.add(File)
             db.session.commit()
+
+            # [DEBUG] The line bellow is for metadata - name and artist of the song.
+            print("Metadata: " + str(tag.title) + " - " + str(tag.artist))
 
             return redirect(url_for('songs'))
         else:
@@ -112,9 +120,6 @@ def songs():
         songs = song.query.all()
         random.shuffle(songs)
         songs = songs[:20]
-                
-        
-    
  
     return render_template('songs.html', songs = songs)
     
