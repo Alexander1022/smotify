@@ -19,7 +19,7 @@ Melodic - music app on Python.
 
 - [ ] Playlist management
 
-- [ ] Extract mp3 metadata
+- [x] Extract mp3 metadata
 
 ## III
 
