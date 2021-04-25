@@ -37,10 +37,15 @@ python run.py
 ## Използвани технологии
 
 [Python 3](https://www.python.org)
+
 [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+
 [HTML](https://devdocs.io/html/)
+
 [CSS](https://devdocs.io/css/)
+
 [Bootstrap](https://getbootstrap.com)
+
 [Java Script](https://devdocs.io/javascript/)
 
 ## Автори на прокета
