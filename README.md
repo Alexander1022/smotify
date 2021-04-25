@@ -1,32 +1,50 @@
 # Melodic
-Melodic - music app on Python.
-![Smotify Image](/smotify_image.png)
-## I
 
-- [x] basic UI
+Melodic e уеб апликация, с която може да слушате музика, да качвате песни и подкасти и да създавате плейлисти. 
 
-- [x] Authentication
+## Как да инсталираме проекта?
 
-- [x] Upload songs
+Ако нямате инсталиран virtual environment, може да го направите като инсталирате python3-venv pakackage-a:
 
-- [x] Search
+```bash
+sudo apt install python3-venv
+```
 
-## II
+Тогава, трябва да създадете своят virtual environment:
 
-- [x] Player (song and conttrols for repeat/shuffle)
+```bash
+python3 -m venv venv
+```
 
-- [x] Fuzzysearch (name, artists, etc)
+После трябва да го активирате по следния начин:
 
-- [ ] Playlist management
+```bash
+source venv/bin/activate
+```
 
-- [x] Extract mp3 metadata
+След което инсталирате dependency-тата:
 
-## III
+```bash
+pip install -r requirements.txt
+```
 
-- [ ] Similiar songs
+И накрая пускате проекта:
 
-- [x] Improve UI (Bootstrap 4.6)
+```bash
+python run.py
+```
 
-## IV
+## Използвани технологии
 
+[Python 3](https://www.python.org)
+[Flask](https://flask.palletsprojects.com/en/1.1.x/)
+[HTML](https://devdocs.io/html/)
+[CSS](https://devdocs.io/css/)
+[Bootstrap](https://getbootstrap.com)
+[Java Script](https://devdocs.io/javascript/)
+
+## Автори на прокета
+
+Мартин Врачев - програмист, дизайнер
+Александър Йорданов - програмист, дизайнер
 
