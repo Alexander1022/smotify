@@ -8,10 +8,7 @@ from fuzzywuzzy import fuzz
 from tinytag import TinyTag
 from bs4 import BeautifulSoup
 
-
-
 #from werkzeug.utils import secure_filename
-
 
 @app.route('/')
 @app.route('/home')
@@ -56,7 +53,7 @@ def upload():
 
     return render_template('upload.html', form = form)
 
-@app.route('/uploads/<filename>')
+@app.route('/uploads/static/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 

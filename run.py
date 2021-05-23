@@ -181,11 +181,23 @@ def make_playlist():
         songs = []
 
     return render_template('make_playlist.html', songs = songs, form = form)'''
-    
 
+import app
 from app import app
 from app import db
-import logging 
+from app import utils
+from app import routes
+from flask import render_template, flash, redirect, url_for, session, logging, request, send_from_directory
+from app.models import user, song, playlist
+from app.forms import UploadForm, MakePlaylistForm
+from app.utils import *
+from app import app, db, UPLOAD_FOLDER
+import os
+from fuzzywuzzy import fuzz
+from tinytag import TinyTag
+from bs4 import BeautifulSoup
+import logging
+
 
 if __name__ == "__main__":
     db.create_all()
