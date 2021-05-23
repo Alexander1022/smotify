@@ -9,7 +9,8 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" integrity="sha512-YsR46MmyChktsyMMou+Bs74oCa/CDdwft7rJ5wlnmDzMj1mzqncsfJamEEf99Nk7IB0JpTMo5hS8rxB49FUktQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.js" integrity="sha512-fCU+rmH3nS/RJaTSl/ylo/PxwWIZwJts3rfxRylSPqGYMJGPLXvPJGOTF+ECb0K5m9rSXbkCNg2PR7WKGWRTVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <main class="page login-page">
             <section class="clean-block clean-form dark" style="background: #232931;">
@@ -20,7 +21,33 @@
                     </div>
 
                     <form method="POST" enctype="multipart/form-data">
-                        <input class="form-control-file" type="file" accept="audio/*" name="file" required="">
+                        <input class="form-control-file" type="file" accept="audio/*" id="file-selector" name="file" required="">
+
+                        <!-- scipt for getting metadata of a file --->
+
+                        <script>
+                            var jsmediatags = window.jsmediatags;
+                            var artistNameTag;
+                            var songNameTag;
+
+                            const music = document.getElementById('file-selector');
+                            music.addEventListener('change', (event) =>
+                            {
+                                var file = event.target.files[0];
+                                jsmediatags.read(file,
+                                {
+                                    onSuccess: function(tag)
+                                    {
+                                        songNameTag = "" + tag['tags']['TIT2']['data'];
+                                        artistNameTag = "" + tag['tags']['TPE2']['data'];
+                                        console.log(songNameTag);
+                                        console.log(artistNameTag);
+                                    }
+                                });
+                            });
+
+                        </script>
+
                         <div class="form-group">
                             <label>Name</label>
                             <div class="form-control" style="border: 0px;">
@@ -41,7 +68,8 @@
                                 {{form.Genre}}
                             </div>
                         </div>
-			<input class="btn btn-light btn-block" type=submit value=Upload>
+
+			            <input class="btn btn-light btn-block" type=submit value=Upload>
                         <!-- <button class="btn btn-light btn-block" type="button">Upload</button> -->
                     </form>
                 </div>
