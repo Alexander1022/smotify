@@ -20,10 +20,31 @@
                         <p class="text-white">Upload a song to Melodic!</p>
                     </div>
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-data" autocomplete="off">
                         <input class="form-control-file" type="file" accept="audio/*" id="file-selector" name="file" required="">
 
-                        <!-- scipt for getting metadata of a file --->
+                        <div class="form-group">
+                            <label>Name</label>
+                            <div class="form-control" style="border: 0px;">
+                                {{form.SongName}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Artist</label>
+                            <div class="form-control" style="border: 0px;">
+                                {{form.Artist}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <div class="form-control" style="border: 0px;">
+                                {{form.Genre}}
+                            </div>
+                        </div>
+
+			            <input class="btn btn-light btn-block" type=submit value=Upload>
 
                         <script>
                             var jsmediatags = window.jsmediatags;
@@ -42,34 +63,16 @@
                                         artistNameTag = "" + tag['tags']['TPE2']['data'];
                                         console.log(songNameTag);
                                         console.log(artistNameTag);
+
+                                        document.getElementById('Artist').value = artistNameTag;
+                                        console.log("[DEBUG] Artist's name is changed 👌");
+                                        document.getElementById('SongName').value = songNameTag;
+                                        console.log("[DEBUG] Song's name is changed 👌");
                                     }
                                 });
                             });
 
                         </script>
-
-                        <div class="form-group">
-                            <label>Name</label>
-                            <div class="form-control" style="border: 0px;">
-                                {{form.SongName}} 
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Artist</label>
-                            <div class="form-control" style="border: 0px;">
-                                {{form.Artist}} 
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Genre</label>
-                            <div class="form-control" style="border: 0px;">
-                                {{form.Genre}}
-                            </div>
-                        </div>
-
-			            <input class="btn btn-light btn-block" type=submit value=Upload>
                         <!-- <button class="btn btn-light btn-block" type="button">Upload</button> -->
                     </form>
                 </div>
