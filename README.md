@@ -2,6 +2,31 @@
 
 Melodic e уеб апликация, с която може да слушате музика, да качвате песни и подкасти и да създавате плейлисти. 
 
+## Направени точки 
+I Milestone
+
+- [X] basic UI
+- [X] Authentication
+- [X] Upload songs
+- [X] Search songs
+
+II Milestone
+
+- [X] fix bug with overwriting songs when the file name is the same
+- [X] fuzzyseacrh (over all important fields - name, artists, etc)
+
+- [X] Player with
+  - [X] song
+  - [X] control for repeat/shuffle
+
+- [ ] playlist management
+- [ ] extend player and search to use playlist
+- [X] extract mp3 metadata and prepopulate upload form
+
+III Milestone
+- [ ] CRUD on songs
+- [ ] similar songs
+- [X] improve UI (should be very polished)
 ## Как да инсталираме проекта?
 
 Ако нямате инсталиран virtual environment, може да го направите като инсталирате python3-venv pakackage-a:
