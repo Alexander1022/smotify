@@ -116,7 +116,7 @@ def songs():
 
     else:
         songs = song.query.paginate(page = page, per_page = 10) # пагинация
-        #random.shuffle(songs)
+        random.shuffle(songs.items)
         #songs = songs[:20]
         #songs = songs.paginate(page = page, per_page = 20)
 
