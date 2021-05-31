@@ -28,8 +28,13 @@
 				</form>
 			</div>
 			<div class="shadow-lg block-content" style="background: #232931;">
+
+				<p class="text-right mt-3 text-center" style="color: white;">
+					Melodic page {{ songs.page }} of {{ songs.pages }} .
+				</p>
+
 				<div class="col">
-					{% for song in songs %}
+					{% for song in songs.items %}
 
 					<script>
 						var song_filename = "../static/uploads/{{ song.filename }}";
@@ -47,7 +52,16 @@
 						<div class="card-body">
 							<h4 class="card-title">{{ song.name }}</h4>
 							<h6 class="text-muted card-subtitle mb-2">{{ song.artist_name }}</h6>
-							<p class="card-text"></p><label for="genre">{{ song.genre }}</label>
+							<p class="card-text">
+								<label for="genre">{{ song.genre }}</label>
+							</p>
+
+							<button class="btn btn-primary play-pause" onclick="loadTrack({{loop.index}} - 1) ; playTrack()" type="button" style="background: #191414;border-style: none;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-play">
+									<path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"></path>
+								</svg>
+							</button>
+							
 							<audio src="../static/uploads/{{song.filename}}" id="song"></audio>
 						</div>
 					</div>
@@ -56,6 +70,40 @@
 				</div>
 			</div>
 		</div>
+
+		<ul class="pagination justify-content-center">
+			<li class="page-item">
+				<a class="page-link" href="{{ url_for('songs', page=songs.prev_num) }}" 
+					{% if songs.page == 1 %}
+						Disabled
+					{% endif %}>
+						Previous
+				</a>
+			</li>
+
+			{% for page_num in songs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+				{% if page_num %}
+					{% if songs.page == page_num %}
+					<li class="page-item">
+						<a class="page-link" href="{{ url_for('songs', page=page_num) }}">{{ page_num }}</a>
+					</li>
+
+					{% else %}
+					<li class="page-item">
+						<a class="page-link" href="{{ url_for('songs', page=page_num) }}">{{ page_num }}</a>
+					</li>
+
+					{% endif %}
+
+				{% else %}
+				<li class="page-item">
+					<a class="page-link">....</a>
+				</li>
+				{% endif %}
+
+			{% endfor %}
+			<a class="page-link" href="{{ url_for('songs', page=songs.next_num) }}" {% if songs.page == songs.pages %}disabled{% endif %}>Next</a>
+		</ul>
 	</section>
 </main>
 
@@ -146,11 +194,11 @@
 
 	loadTrack(0);
 
-	function loadTrack(track_index) 
+	function loadTrack(i) 
 	{
+		track_index = i;
 		clearInterval(updateTimer);
 		resetValues();
-	
 		curr_track.src = js_songs[track_index];
 		curr_track.load();
 		song_artist_query.textContent = js_songs_artists[track_index];

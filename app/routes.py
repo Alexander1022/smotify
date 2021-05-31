@@ -97,6 +97,7 @@ def logout():
 
 @app.route('/songs', methods=['GET', 'POST'])
 def songs():
+    page = request.args.get('page', 1, type=int)
     q = request.args.get('q')
     
     if q:
@@ -114,10 +115,11 @@ def songs():
                     songs.append(s)
 
     else:
-        songs = song.query.all()
-        random.shuffle(songs)
-        songs = songs[:20]
- 
+        songs = song.query.paginate(page = page, per_page = 10) # пагинация
+        #random.shuffle(songs)
+        #songs = songs[:20]
+        #songs = songs.paginate(page = page, per_page = 20)
+
     return render_template('songs.html', songs = songs)
     
 @app.route('/make_playlist', methods = ['GET', 'POST'])
