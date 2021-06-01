@@ -82,6 +82,17 @@ def edit_song(song_id):
     
     return render_template('edit_song.html', form = form, s = s)
     
+@app.route('/my_songs/delete/<int:song_id>', methods=["GET", "POST"])
+@login_required
+def delete_song(song_id):
+    s = song.query.get_or_404(song_id)
+    if s.uploader != current_user:
+        abort(403)
+    db.session.delete(s)
+    db.session.commit()
+    flash('Your song has been deleted!', 'success')
+    return redirect(url_for('index'))
+    
 
 @app.route('/uploads/static/<filename>')
 def uploaded_file(filename):

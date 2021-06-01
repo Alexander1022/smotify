@@ -21,6 +21,7 @@
                     </div>
 
                     <form method="POST" enctype="multipart/form-data" autocomplete="off">
+                        <input class="form-control-file" type="file" accept="audio/*" id="file-selector" name="file" required="">
 
                         <div class="form-group">
                             <label>Name</label>
@@ -45,6 +46,33 @@
 
 			            <input class="btn btn-light btn-block" type=submit value=Upload>
 
+                        <script>
+                            var jsmediatags = window.jsmediatags;
+                            var artistNameTag;
+                            var songNameTag;
+
+                            const music = document.getElementById('file-selector');
+                            music.addEventListener('change', (event) =>
+                            {
+                                var file = event.target.files[0];
+                                jsmediatags.read(file,
+                                {
+                                    onSuccess: function(tag)
+                                    {
+                                        songNameTag = "" + tag['tags']['TIT2']['data'];
+                                        artistNameTag = "" + tag['tags']['TPE2']['data'];
+                                        console.log(songNameTag);
+                                        console.log(artistNameTag);
+
+                                        document.getElementById('Artist').value = artistNameTag;
+                                        console.log("[DEBUG] Artist's name is changed 👌");
+                                        document.getElementById('SongName').value = songNameTag;
+                                        console.log("[DEBUG] Song's name is changed 👌");
+                                    }
+                                });
+                            });
+
+                        </script>
                         <!-- <button class="btn btn-light btn-block" type="button">Upload</button> -->
                     </form>
                 </div>
