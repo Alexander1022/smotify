@@ -6,7 +6,7 @@ from app import app, db, UPLOAD_FOLDER
 import os
 from fuzzywuzzy import fuzz
 from tinytag import TinyTag
-from bs4 import BeautifulSoup
+from flask_login import login_user, current_user, logout_user, login_required
 
 #from werkzeug.utils import secure_filename
 
@@ -16,7 +16,7 @@ def index():
     return render_template('home.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
-@is_logged_in
+@login_required
 def upload():
     form = UploadForm()
 
@@ -40,7 +40,8 @@ def upload():
             tag = TinyTag.get(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             title = tag.title
             artist = tag.artist
-            File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename)
+            #File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename, uploader = )
+            
             db.session.add(File)
             db.session.commit()
 
@@ -59,6 +60,9 @@ def uploaded_file(filename):
 
 @app.route("/login",methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    
     if request.method == "POST":
         uname = request.form["uname"]
         passw = request.form["passw"]
@@ -66,8 +70,9 @@ def login():
         login = user.query.filter_by(username = uname, password = hash_password(passw)).first()
 
         if login is not None:
-            session['logged_in'] = True
-            session['username'] = uname
+            #session['logged_in'] = True
+            #session['username'] = uname
+            login_user(login)
             return redirect(url_for("index"))
 
         elif login is None:
@@ -77,6 +82,9 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
     if request.method == "POST":
         uname = request.form['uname']
         mail = request.form['mail']
@@ -90,10 +98,10 @@ def register():
     return render_template("register.html")
 
 @app.route('/logout')
-@is_logged_in
 def logout():
-    session.clear()
-    return redirect(url_for('login'))
+    #session.clear()
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/songs', methods=['GET', 'POST'])
 def songs():
@@ -123,7 +131,7 @@ def songs():
     return render_template('songs.html', songs = songs)
     
 @app.route('/make_playlist', methods = ['GET', 'POST'])
-@is_logged_in
+@login_required
 def make_playlist():
 
     form = MakePlaylistForm() 

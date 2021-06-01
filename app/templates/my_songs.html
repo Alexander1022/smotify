@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+<main class="page blog-post-list">
+	<section class="clean-block clean-blog-list dark" style="background: #393e46;">
+		<div class="container">
+			<div class="block-heading">
+				<h2 style="color: #4ecca3;">Browse the music ulpoaded by you</h2>
+				<p style="color: #4ecca3;">Edit or delete songs</p>
+			</div>
+
+			<div class="text-center">
+				<h1 style="color: rgb(255,255,255);">Search now with Melodic!</h1>
+
+				<form method="GET">
+					<input type="search" style="background: #ffffff;border-style: none;border-radius: 6px;width: 294px;height: 34px;margin: 21px;text-align: center;" placeholder="Search songs"  name="q">
+					<button>Search</button>
+				</form>
+			</div>
+			<div class="shadow-lg block-content" style="background: #232931;">
+				<div class="col">
+					{% for s in my_songs %}
+
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">{{ s.name }}</h4>
+							<h6 class="text-muted card-subtitle mb-2">{{ s.artist_name }}</h6>
+							<p class="card-text"></p><label for="genre">{{ s.genre }}</label>
+						</div>
+					</div>
+					
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<div id="end"></div>
+{% endblock %}

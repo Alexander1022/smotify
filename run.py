@@ -195,7 +195,6 @@ from app import app, db, UPLOAD_FOLDER
 import os
 from fuzzywuzzy import fuzz
 from tinytag import TinyTag
-from bs4 import BeautifulSoup
 import logging
 
 

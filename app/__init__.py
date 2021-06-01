@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
+from flask_login import LoginManager
 
 UPLOAD_FOLDER = './app/static/uploads'
 ONLY_ALLOWED = {'mp3', 'wav', 'ogg', 'wma'}
@@ -11,6 +12,8 @@ db_uri = 'sqlite:///{}'.format(db_path)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+
 
 from app import routes
 

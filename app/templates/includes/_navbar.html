@@ -16,7 +16,7 @@
                 <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/songs">Browse</a></li>
 
-                {% if session.logged_in %}
+                {% if current_user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="/make_playlist">Create a playlist</a></li>
                 <li class="nav-item"><a class="nav-link" href="/upload">Upload</a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
