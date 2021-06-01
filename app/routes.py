@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, session, logging, request, send_from_directory
+from flask import render_template, flash, redirect, url_for, session, logging, request, send_from_directory, abort
 from app.models import user, song, playlist
 from app.forms import UploadForm, MakePlaylistForm
 from app.utils import *
@@ -55,9 +55,33 @@ def upload():
     return render_template('upload.html', form = form)
     
 @app.route('/my_songs')
+@login_required
 def my_songs():
-    my_songs = song.query.all()
+    my_songs = song.query.filter_by(uploader = current_user)
     return render_template('my_songs.html', my_songs = my_songs)
+    
+@app.route('/my_songs/edit/<int:song_id>', methods=["GET", "POST"])
+@login_required
+def edit_song(song_id):
+    s = song.query.get_or_404(song_id)
+    if s.uploader != current_user:
+        abort(403)
+        
+    form = UploadForm()
+    if request.method == 'POST':
+        s.name = form.SongName.data
+        s.artist_name = form.Artist.data
+        s.genre = form.Genre.data
+        db.session.commit()
+        flash('Your song has been updated!', 'success')
+        return redirect(url_for('my_songs'))
+    elif request.method == 'GET':
+        form.SongName.data = s.name
+        form.Artist.data = s.artist_name
+        form.Genre.data = s.genre
+    
+    return render_template('edit_song.html', form = form, s = s)
+    
 
 @app.route('/uploads/static/<filename>')
 def uploaded_file(filename):
