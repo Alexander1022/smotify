@@ -40,7 +40,7 @@ def upload():
             tag = TinyTag.get(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             title = tag.title
             artist = tag.artist
-            #File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename, uploader = )
+            File = song(name = form.SongName.data, artist_name = form.Artist.data, genre = form.Genre.data, filename = filename, uploader = current_user)
             
             db.session.add(File)
             db.session.commit()
@@ -53,6 +53,11 @@ def upload():
             flash('.mp3, .wav, .ogg and .wma are only supported')
 
     return render_template('upload.html', form = form)
+    
+@app.route('/my_songs')
+def my_songs():
+    my_songs = song.query.all()
+    return render_template('my_songs.html', my_songs = my_songs)
 
 @app.route('/uploads/static/<filename>')
 def uploaded_file(filename):
