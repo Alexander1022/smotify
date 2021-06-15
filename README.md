@@ -24,7 +24,7 @@ II Milestone
 - [X] extract mp3 metadata and prepopulate upload form
 
 III Milestone
-- [ ] CRUD on songs
+- [X] CRUD on songs
 - [ ] similar songs
 - [X] improve UI (should be very polished)
 ## Как да инсталираме проекта?
