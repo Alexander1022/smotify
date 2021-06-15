@@ -13,6 +13,7 @@
 				var js_songs_name;
 				var js_songs_artists;
 				var js_songs_genre;
+
 				js_songs = [];
 				js_songs_name = [];
 				js_songs_artists = [];
@@ -212,7 +213,12 @@
 		curr_track.load();
 		song_artist_query.textContent = js_songs_artists[track_index];
 		song_name_query.textContent = js_songs_name[track_index];
-	
+		
+		/*forYou.push(js_songs_artists[track_index]);
+		sessionStorage.setItem('forYou', forYou);*/
+
+		putInSes(js_songs_artists[track_index]);
+
 		updateTimer = setInterval(seekUpdate, 1000);
 	
 		curr_track.addEventListener("ended", nextTrack);
