@@ -49,8 +49,15 @@
 					</script>
 
 					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">{{ song.name }}</h4>
+						<div class="card-body flex-row flex-grow-1 flex-shrink-1 my-auto">
+							<div class="row">
+								<div class="col mx-auto">
+									<h4>{{ song.name }}</h4>
+									<div class="dropleft"><button class="btn btn-primary dropdown-toggle float-right" aria-expanded="false" data-toggle="dropdown" type="button" style="background: #4ecca3;border-style: none;">Add to playlist</button>
+										<div class="dropdown-menu dropdown-menu-right float-left"><a class="dropdown-item" href="#">Playlist 1</a><a class="dropdown-item" href="#">Playlist 2</a><a class="dropdown-item" href="#">Playlist 3</a></div>
+									</div>
+								</div>
+							</div>
 							<h6 class="text-muted card-subtitle mb-2">{{ song.artist_name }}</h6>
 							<p class="card-text">
 								<label for="genre">{{ song.genre }}</label>
