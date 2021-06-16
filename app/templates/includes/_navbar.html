@@ -17,6 +17,7 @@
                 <li class="nav-item"><a class="nav-link" href="/songs">Browse</a></li>
 
                 {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="/forYou">For You <span class="badge badge-secondary">New</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="/my_songs">My songs</a></li>
                 <li class="nav-item"><a class="nav-link" href="/upload">Upload</a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>

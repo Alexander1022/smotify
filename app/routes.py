@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, url_for, session, logging, request, send_from_directory, abort
+from flask_wtf import form
 from app.models import user, song, playlist
 from app.forms import UploadForm, MakePlaylistForm
 from app.utils import *
@@ -169,13 +170,19 @@ def songs():
         #songs = songs.paginate(page = page, per_page = 20)
 
     return render_template('songs.html', songs = songs)
+
+@app.route('/forYou', methods=['GET', 'POST'])
+def forYou():
+    forYouSongs = song.query.all()
+    a = 0
+    random.shuffle(forYouSongs)
+    return render_template('forYou.html', songs = forYouSongs, a = a)
     
 @app.route('/make_playlist', methods = ['GET', 'POST'])
 @login_required
 def make_playlist():
 
     form = MakePlaylistForm() 
-
     q = request.args.get('q')
     
     if q:

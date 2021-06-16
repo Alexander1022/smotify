@@ -18,3 +18,10 @@ function getNotUnique()
 
     forYouEdited = [...new Set(array)];
 }
+
+function getSessionData()
+{
+    
+    getNotUnique(); 
+    return forYouEdited; 
+}
