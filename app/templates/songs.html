@@ -5,7 +5,6 @@
 		<div class="container">
 			<div class="block-heading">
 				<h2 style="color: #4ecca3;">Browse music and podcasts</h2>
-				<p style="color: #4ecca3;">Play every song and podcast for free.</p>
 			</div>
 
 			<script>
@@ -21,20 +20,24 @@
 			</script>
 
 			<div class="text-center">
-				<h1 style="color: rgb(255,255,255);">Search now with Melodic!</h1>
+				<h2 style="color: rgb(255,255,255);">Search now with Melodic!</h2>
 
 				<form method="GET">
-					<input type="search" style="background: #ffffff;border-style: none;border-radius: 6px;width: 294px;height: 34px;margin: 21px;text-align: center;" placeholder="Search songs"  name="q">
-					<button>Search</button>
+					<input type="search" style="background: #ffffff;border-style: none;border-radius: 6px;width: 294px;height: 34px;margin: 21px;text-align: center;outline: none;" placeholder="Search songs"  name="q">
+					<button class="btn btn-light">Search</button>
 				</form>
 			</div>
 			<div class="shadow-lg block-content" style="background: #232931;">
 
+				{% if songs.items %}
 				<h3 class="text-right mt-3 text-center" style="color: white;">
 					Page {{ songs.page }} / {{ songs.pages }}
 				</h3>
+				{% endif %}
 
 				<div class="col">
+
+					{% if songs.items %}
 					{% for song in songs.items %}
 
 					<script>
@@ -77,12 +80,60 @@
 							<audio src="../static/uploads/{{song.filename}}" id="song"></audio>
 						</div>
 					</div>
+					{% endfor %}
 					
-					{% endfor %}					
+					{%else %}
+
+					{% for song in songs %}
+
+					<script>
+						var song_filename = "../static/uploads/{{ song.filename }}";
+						var song_name = "{{song.name}}";
+						var song_artist = "{{song.artist_name}}";
+						var song_genre = "{{song.genre}}";
+				
+						js_songs.push(song_filename);
+						js_songs_name.push(song_name);
+						js_songs_artists.push(song_artist);
+						js_songs_genre.push(song_genre);
+					</script>
+
+					<div class="card">
+						<div class="card-body flex-row flex-grow-1 flex-shrink-1 my-auto">
+							<div class="row">
+								<div class="col mx-auto">
+									<h4>{{ song.name }}</h4>
+									<div class="dropleft"><button class="btn btn-primary dropdown-toggle float-right" aria-expanded="false" data-toggle="dropdown" type="button" style="background: #4ecca3;border-style: none;">Add to playlist</button>
+										<div class="dropdown-menu dropdown-menu-right float-left">
+											<a class="dropdown-item" href="{{ url_for('make_playlist') }}">Playlist 1</a>
+											<button type="button" class="dropdown-item">Playlist 2</button>
+											<button type="button" class="dropdown-item">Playlist 3</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h6 class="text-muted card-subtitle mb-2">{{ song.artist_name }}</h6>
+							<p class="card-text">
+								<label for="genre">{{ song.genre }}</label>
+							</p>
+
+							<button class="btn btn-primary play-pause" onclick="loadTrack({{loop.index}} - 1) ; playTrack()" type="button" style="background: #191414;border-style: none;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-play">
+									<path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"></path>
+								</svg>
+							</button>
+							
+							<audio src="../static/uploads/{{song.filename}}" id="song"></audio>
+						</div>
+					</div>
+					
+					{% endfor %}	
+					{% endif %}				
 				</div>
 			</div>
 		</div>
 
+		{% if songs.items %}
 		<ul class="pagination justify-content-center">
 			<li class="page-item">
 				<a class="page-link" href="{{ url_for('songs', page=songs.prev_num) }}" 
@@ -116,6 +167,7 @@
 			{% endfor %}
 			<a class="page-link" href="{{ url_for('songs', page=songs.next_num) }}" {% if songs.page == songs.pages %}disabled{% endif %}>Next</a>
 		</ul>
+		{% endif %}
 	</section>
 </main>
 
