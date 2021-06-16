@@ -55,7 +55,11 @@
 								<div class="col mx-auto">
 									<h4>{{ song.name }}</h4>
 									<div class="dropleft"><button class="btn btn-primary dropdown-toggle float-right" aria-expanded="false" data-toggle="dropdown" type="button" style="background: #4ecca3;border-style: none;">Add to playlist</button>
-										<div class="dropdown-menu dropdown-menu-right float-left"><a class="dropdown-item" href="#">Playlist 1</a><a class="dropdown-item" href="#">Playlist 2</a><a class="dropdown-item" href="#">Playlist 3</a></div>
+										<div class="dropdown-menu dropdown-menu-right float-left">
+											<a class="dropdown-item" href="{{ url_for('make_playlist') }}">Playlist 1</a>
+											<button type="button" class="dropdown-item">Playlist 2</button>
+											<button type="button" class="dropdown-item">Playlist 3</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -74,7 +78,7 @@
 						</div>
 					</div>
 					
-					{% endfor %}
+					{% endfor %}					
 				</div>
 			</div>
 		</div>

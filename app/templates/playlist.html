@@ -15,9 +15,18 @@
             <section class="clean-block clean-form dark" style="background: #232931;">
                 <div class="container">
                     <div class="block-heading">
-                        <h2 class="text-white">Make a playlist</h2>
-                        <p class="text-white">Choose songs you want to add in your playlist!</p>
+                        <h2 class="text-white">Enter a name for your playlist</h2>
                     </div>
+                    
+                    <form class="shadow-lg" method="POST">
+		            <div class="form-group">
+		                <label for="email">Playlist Name</label>
+		                <input class="form-control item" type="playlist" name="playlist" id="playlist" required="">
+		            </div>
+		            <button class="btn btn-light btn-block" type="submit" style="color: #000000;">Confirm</button>
+
+                </form>
+                    
                 </div>
             </section>
         </main>
