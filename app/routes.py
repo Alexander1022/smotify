@@ -181,13 +181,16 @@ def forYou():
 @app.route('/make_playlist', methods = ['GET', 'POST'])
 @login_required
 def make_playlist():
-
-    form = MakePlaylistForm() 
-    q = request.args.get('q')
-    
-    if q:
-        songs = song.query.filter(song.name.contains(q) | song.artist_name.contains(q) | song.genre.contains(q))
-    else:
-        songs = []
+    if request.method == "POST":
+        pl_name = request.form["playlist"]
+        pl = playlist(playlist_name = pl_name)
+        db.session.add(pl)
+        db.session.commit()
+        return redirect(url_for("forYou"))
 
     return render_template('make_playlist.html', songs = songs, form = form)
+    
+@app.route('/add_to_playlist')
+def add_to_playlist():
+	print("Hello!")
+	return "kurec"
