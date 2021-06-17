@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+<main class="page blog-post-list">
+	<section class="clean-block clean-blog-list dark" style="background: #393e46;">
+		<div class="container">
+			<div class="block-heading">
+				<h2 style="color: #4ecca3;">Browse the music ulpoaded by you</h2>
+				<p style="color: #4ecca3;">Edit or delete songs</p>
+			</div>
+
+			<div class="shadow-lg block-content" style="background: #232931;">
+				<div class="col">
+					{% for p in playlists %}
+
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title"><a href="{{ url_for('pl', pl_id = p.playlist_id) }}" style="color: black">{{ p.playlist_name }}</a></h4>
+						</div>
+					</div>
+					
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<div id="end"></div>
+{% endblock %}

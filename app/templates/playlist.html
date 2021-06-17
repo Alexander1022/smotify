@@ -15,17 +15,24 @@
             <section class="clean-block clean-form dark" style="background: #232931;">
                 <div class="container">
                     <div class="block-heading">
-                        <h2 class="text-white">Enter a name for your playlist</h2>
+                        <h2 class="text-white"> Listen to {{ pl.name }}</h2>
                     </div>
                     
-                    <form class="shadow-lg" method="POST">
-		            <div class="form-group">
-		                <label for="email">Playlist Name</label>
-		                <input class="form-control item" type="playlist" name="playlist" id="playlist" required="">
-		            </div>
-		            <button class="btn btn-light btn-block" type="submit" style="color: #000000;">Confirm</button>
-
-                </form>
+			{% for s in songs %}
+				<div class="card">
+					<div class="card-body flex-row flex-grow-1 flex-shrink-1 my-auto">
+						<div class="row">
+							<div class="col mx-auto">
+								<h4>{{ s.name }}</h4>
+							</div>
+						</div>
+						<h6 class="text-muted card-subtitle mb-2">{{ s.artist_name }}</h6>
+						<p class="card-text">
+							<label for="genre">{{ s.genre }}</label>
+						</p>
+					</div>
+				</div>
+			{% endfor %}
                     
                 </div>
             </section>

@@ -92,7 +92,7 @@ def delete_song(song_id):
     db.session.delete(s)
     db.session.commit()
     flash('Your song has been deleted!', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('my_songs'))
     
 
 @app.route('/uploads/static/<filename>')
@@ -190,7 +190,15 @@ def make_playlist():
 
     return render_template('make_playlist.html', songs = songs, form = form)
     
-@app.route('/add_to_playlist')
-def add_to_playlist():
-	print("Hello!")
-	return "kurec"
+@app.route('/playlists')
+def playlists():
+    playlists = playlist.query.all()
+    return render_template('playlists.html', playlists = playlists)
+    
+@app.route('/playlists/<int:pl_id>')
+def pl(pl_id):
+    pl = playlist.query.get_or_404(pl_id)
+    songs = pl.songs_in_playlist
+    return render_template('playlist.html', pl = pl, songs = songs)
+    
+    
