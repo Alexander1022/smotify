@@ -146,6 +146,7 @@ def logout():
 
 @app.route('/songs', methods=['GET', 'POST'])
 def songs():
+    playlists = playlist.query.all()
     page = request.args.get('page', 1, type=int)
     q = request.args.get('q')
     
@@ -169,7 +170,7 @@ def songs():
         #songs = songs[:20]
         #songs = songs.paginate(page = page, per_page = 20)
 
-    return render_template('songs.html', songs = songs)
+    return render_template('songs.html', songs = songs, pl = playlists)
 
 @app.route('/forYou', methods=['GET', 'POST'])
 def forYou():
@@ -201,4 +202,11 @@ def pl(pl_id):
     songs = pl.songs_in_playlist
     return render_template('playlist.html', pl = pl, songs = songs)
     
+@app.route('/add_song_to_playlist')
+def add_song_to_playlist(pl_id, s_id):
+    #sp = songs_playlists(song_id = s_id, playlist_id = pl_id)
+    #db.session.add(sp)
+    #db.session.commit()
+    print("Hello")
+    return "kurec"
     

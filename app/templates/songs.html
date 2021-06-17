@@ -60,6 +60,24 @@
 									<div class="dropleft"><button class="btn btn-primary dropdown-toggle float-right" aria-expanded="false" data-toggle="dropdown" type="button" style="background: #4ecca3;border-style: none;">Add to playlist</button>
 										<div class="dropdown-menu dropdown-menu-right float-left">
 											<a class="dropdown-item" href="{{ url_for('make_playlist') }}"> Create a new playlist </a>
+											{% for p in pl %}
+											<form>
+											<a class="dropdown-item" href="#" id=add_song> {{ p.playlist_name }} </a>
+											</form>
+											{% endfor %}
+											
+											<script type=text/javascript>
+												$(function() {
+												  $('a#add_song').on('click', function(e) {
+												    e.preventDefault()
+												    $.getJSON('/add_song_to_playlist',
+													function(data) {
+												      //do nothing
+												    });
+												    return false;
+												  });
+												});
+											</script>
 										</div>
 									</div>
 								</div>
