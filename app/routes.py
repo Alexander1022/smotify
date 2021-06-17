@@ -193,7 +193,21 @@ def make_playlist():
     
 @app.route('/playlists')
 def playlists():
-    playlists = playlist.query.all()
+    q = request.args.get('q')
+    if q:
+        records = playlist.query.all()
+        playlists = []
+
+        for p in records:
+            name = fuzz.token_sort_ratio(q, p.playlist_name)
+            
+            if name > 60:
+                if p not in playlists: 
+                    playlists.append(p)
+
+    else:
+        playlists = playlist.query.all()
+ 
     return render_template('playlists.html', playlists = playlists)
     
 @app.route('/playlists/<int:pl_id>')
@@ -203,10 +217,31 @@ def pl(pl_id):
     return render_template('playlist.html', pl = pl, songs = songs)
     
 @app.route('/add_song_to_playlist')
-def add_song_to_playlist(pl_id, s_id):
-    #sp = songs_playlists(song_id = s_id, playlist_id = pl_id)
-    #db.session.add(sp)
-    #db.session.commit()
+def add_song_to_playlist():
+    s_id = request.args.getlist('key1[]')
+    pl_id = request.args.getlist('key2[]')
+    sp = songs_playlists(song_id = s_id, playlist_id = pl_id)
+    db.session.add(sp)
+    db.session.commit()
     print("Hello")
     return "kurec"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     

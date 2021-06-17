@@ -64,20 +64,19 @@
 											<form>
 											<a class="dropdown-item" href="#" id=add_song> {{ p.playlist_name }} </a>
 											</form>
-											{% endfor %}
 											
+																						
 											<script type=text/javascript>
 												$(function() {
 												  $('a#add_song').on('click', function(e) {
 												    e.preventDefault()
-												    $.getJSON('/add_song_to_playlist',
-													function(data) {
-												      //do nothing
-												    });
+												    $.getJSON('/add_song_to_playlist', {'key1': {{ song.id }}, key2: {{ p.playlist_name }}});
 												    return false;
 												  });
 												});
 											</script>
+											
+											{% endfor %}
 										</div>
 									</div>
 								</div>
